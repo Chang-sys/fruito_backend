@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::prefix('auth')->group(function(){
+    Route::post('/login', [AuthController::class, 'authenticate']);
+    Route::post('/register', [AuthController::class, 'register']);
+
+});
+Route::middleware('jwt.verify')->group(function(){
+    Route::get('me',[AuthController::class,'get_user']);
+    Route::post('logout', [AuthController::class,'logout']);
+});
+
 
 Route::group(['prefix' => 'customers'], function(){
     Route::get('/', [CustomerController::class, 'index']);

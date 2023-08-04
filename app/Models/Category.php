@@ -9,5 +9,13 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $table='category';
+    public function item(){
+        return $this->hasMany(Item::class, 'category_id');
+    }
+
+    public function product(){
+        return $this->hasMany(Product::class, 'product_id');
+    }
      
 }
